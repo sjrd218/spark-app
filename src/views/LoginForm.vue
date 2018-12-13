@@ -6,12 +6,12 @@
           <div class="column is-4 is-offset-4">
             <h3 class="title has-text-grey">Login</h3>
             <div class="box">
-              <form @submit.prevent="login">
+              <form @submit.prevent="handleSubmit">
                 <div class="field">
                   <div class="control">
                     <input
                       class="input is-large"
-                      v-model="lun"
+                      v-model="username"
                       type="text"
                       id="un"
                       autofocus
@@ -24,7 +24,7 @@
                   <div class="control">
                     <input
                       class="input is-large"
-                      v-model="lpw"
+                      v-model="password"
                       type="password"
                       id="pwd"
                       placeholder="Your Password"
@@ -48,39 +48,34 @@
 </template>
 
 <script>
-import { SparkLogin } from "@/utilities/LoginServices";
-import { Events } from "@/utilities/vueEventBus";
+import { mapState, mapActions } from "vuex";
 import router from "vue-router";
 
 export default {
   name: "LoginForm",
   data() {
     return {
-      lun: null,
-      lpw: null,
+      password: "Letmein1022!",
       loginError: null,
-      username: null,
+      username: "jesse",
+      submitted: false,
       showingLoginForm: false,
       showingLogoutForm: false
     };
   },
+  computed: {
+    ...mapState("account", ["status"])
+  },
   methods: {
-    login() {
-      SparkLogin.login(this.lun, this.lpw);
-      this.showingLoginForm = false;
+    ...mapActions("account", ["login"]),
+    handleSubmit() {
+      const { username, password } = this;
+      if (username && password) {
+        this.login({ username, password });
+      }
     }
   },
-  mounted() {
-    this.eventBus.$on(Events.LOGIN_FAILURE, msg => {
-      this.loginError = msg;
-    });
-    this.eventBus.$on(Events.CURRENT_USER, user => {
-      this.username = user ? user.username : null;
-      if (this.username) {
-        router.push({ path: "myspark" });
-      }
-    });
-  }
+  mounted() {}
 };
 </script>
 

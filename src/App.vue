@@ -5,9 +5,16 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "app",
-  components: {}
+  methods: {
+    ...mapActions("account", ["checkUser"])
+  },
+  created() {
+    this.checkUser();
+  }
 };
 </script>
 
