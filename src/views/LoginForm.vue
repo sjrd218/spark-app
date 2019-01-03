@@ -11,7 +11,7 @@
                   <div class="control">
                     <input
                       class="input is-large"
-                      v-model="username"
+                      v-model="email"
                       type="text"
                       id="un"
                       autofocus
@@ -39,11 +39,11 @@
                 <div>{{loginError}}</div>
               </div>
             </div>
-            <p v-if="!username" class="has-text-grey">Not a Spark member?
-              <router-link to="register">Register</router-link>
-            </p>
             <p class="has-text-grey">
               <router-link to="forgot">Forgot your password?</router-link>
+            </p>
+            <p style="margin-top:1em;" class="has-text-grey">Not a Spark member?
+              <router-link to="register">Register</router-link>
             </p>
           </div>
         </div>
@@ -61,22 +61,19 @@ export default {
     return {
       password: "Letmein1022!",
       loginError: null,
-      username: "jesse",
-      submitted: false,
-      showingLoginForm: false,
-      showingLogoutForm: false
+      email: "jesse@rundeck.com",
+      submitted: false
     };
   },
   methods: {
     ...mapActions("account", ["login"]),
     handleSubmit() {
-      const { username, password } = this;
-      if (username && password) {
-        this.login({ username, password });
+      const { email, password } = this;
+      if (email && password) {
+        this.login({ email, password });
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 

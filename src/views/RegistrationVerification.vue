@@ -21,8 +21,8 @@
                       required
                       type="text"
                       autofocus
-                      v-model.trim="username"
-                      placeholder="Username"
+                      v-model.trim="email"
+                      placeholder="Email"
                     >
                   </div>
                 </div>
@@ -48,13 +48,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "RegistrationVerification",
   data() {
     return {
-      username: null,
+      email: null,
       verificationCode: null,
       verificationSuccess: null,
       failureMessage: null
@@ -63,16 +63,15 @@ export default {
   methods: {
     ...mapActions("account", ["verify"]),
     handleSubmit() {
-      // const { username, verificationCode } = this;
       this.verify({
-        username: this.username,
+        email: this.email,
         verificationCode: this.verificationCode
       });
     }
   },
   mounted() {
-    if (this.$route.query.username) {
-      this.username = this.$route.query.username;
+    if (this.$route.query.email) {
+      this.email = this.$route.query.email;
     }
   }
 };

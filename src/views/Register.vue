@@ -15,18 +15,6 @@
                     <input
                       class="input is-large"
                       required
-                      type="text"
-                      autofocus
-                      v-model.trim="username"
-                      placeholder="Username"
-                    >
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="control">
-                    <input
-                      class="input is-large"
-                      required
                       type="password"
                       v-model.trim="password"
                       placeholder="Password"
@@ -69,14 +57,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import router from "vue-router";
+import { mapActions } from "vuex";
 
 export default {
   name: "SignUpForm",
   data() {
     return {
-      username: null,
       password: "Letmein1022!",
       email: "jesse@rundeck.com",
       registrationSuccess: false,
@@ -86,9 +72,9 @@ export default {
   methods: {
     ...mapActions("account", ["register"]),
     handleSubmit() {
-      const { username, password, email } = this;
-      if (username && password && email) {
-        this.register({ username, password, email });
+      const { password, email } = this;
+      if (password && email) {
+        this.register({ password, email });
       }
     }
   },

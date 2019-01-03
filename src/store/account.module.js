@@ -14,7 +14,7 @@ const state = {
 };
 
 const getters = {
-  username: state => state.username,
+  email: state => state.email,
   getUser: state => state.user,
   getStatus: state => state.status
 }
@@ -35,13 +35,13 @@ const actions = {
     //dispatch,
     commit
   }, {
-    username,
+    email,
     password
   }) {
     commit('LOGIN_REQUEST', {
-      username
+      email
     });
-    SparkService.login(username, password).then(user => {
+    SparkService.login(email, password).then(user => {
       commit('LOGIN_SUCCESS', user)
       router.push('/');
     }, error => {
@@ -56,12 +56,10 @@ const actions = {
   resetPasswordRequest({
     commit
   }, {
-    username
+    email
   }) {
-    commit('RESET_PASSWORD_REQUEST', {
-      username
-    });
-    SparkService.resetPasswordRequest(username).then((response) => {
+    commit('RESET_PASSWORD_REQUEST');
+    SparkService.resetPasswordRequest(email).then((response) => {
       commit('RESET_PASSWORD_REQUEST_SUCCESS', response)
       router.push('/reset-password');
       // }, error => {
@@ -111,17 +109,16 @@ const actions = {
     //dispatch,
     commit
   }, {
-    username,
     password,
     email
   }) {
     commit('REGISTER_REQUEST');
-    SparkService.register(username, password, email).then(() => {
-      commit('REGISTER_SUCCESS', username);
+    SparkService.register(password, email).then(() => {
+      commit('REGISTER_SUCCESS', email);
       router.push({
         path: '/registration-verification',
         query: {
-          username: username
+          email: email
         }
       });
       // setTimeout(() => {
@@ -140,11 +137,11 @@ const actions = {
     //dispatch,
     commit
   }, {
-    username,
+    email,
     verificationCode
   }) {
     commit('VERIFY_REQUEST');
-    SparkService.verify(username, verificationCode).then(() => {
+    SparkService.verify(email, verificationCode).then(() => {
       router.push('/login');
       // setTimeout(() => {
       // display success message after route change completes
@@ -160,11 +157,10 @@ const actions = {
 };
 
 const mutations = {
-  LOGIN_REQUEST(state, user) {
+  LOGIN_REQUEST(state) {
     state.status = {
       loggingIn: true
     };
-    state.user = user;
   },
   LOGIN_SUCCESS(state, user) {
     state.status = {
@@ -185,9 +181,9 @@ const mutations = {
       registering: true
     };
   },
-  REGISTER_SUCCESS(state, username) {
+  REGISTER_SUCCESS(state, email) {
     state.status = {};
-    state.username = username
+    state.email = email
   },
   REGISTER_FAILURE(state) {
     state.status = {};

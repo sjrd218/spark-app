@@ -12,10 +12,10 @@ class SparkLoginActions {
     ClientId: '7t8avvqkdo26b8h2ohp63bkpcj'
   };
 
-  login(username, password) {
+  login(email, password) {
     return new Promise((resolve, reject) => {
       var authenticationData = {
-        Username: username,
+        Username: email,
         Password: password,
       };
 
@@ -23,7 +23,7 @@ class SparkLoginActions {
 
       var userPool = new CognitoUserPool(this.poolData);
       var userData = {
-        Username: username,
+        Username: email,
         Pool: userPool
       };
       var cognitoUser = new CognitoUser(userData);
@@ -61,7 +61,7 @@ class SparkLoginActions {
 
   }
 
-  register(username, password, email) {
+  register(password, email) {
     return new Promise((resolve, reject) => {
       var userPool = new CognitoUserPool(this.poolData);
 
@@ -75,20 +75,20 @@ class SparkLoginActions {
 
       attributeList.push(attributeEmail);
 
-      userPool.signUp(username, password, attributeList, null, function (err) {
+      userPool.signUp(email, password, attributeList, null, function (err) {
         if (err) {
           reject(err.message)
         }
-        resolve(username)
+        resolve(email)
       });
     })
   }
 
-  verify(username, verificationCode) {
+  verify(email, verificationCode) {
     return new Promise((resolve, reject) => {
       var userPool = new CognitoUserPool(this.poolData);
       var userData = {
-        Username: username,
+        Username: email,
         Pool: userPool
       };
 
@@ -103,7 +103,7 @@ class SparkLoginActions {
   }
 
   // eslint-disable-next-line
-  resetPasswordRequest(username) {
+  resetPasswordRequest(email) {
     return new Promise((resolve) => {
       resolve(true)
     });

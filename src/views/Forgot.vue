@@ -14,8 +14,8 @@
                       required
                       type="text"
                       autofocus
-                      v-model.trim="username"
-                      placeholder="Username"
+                      v-model.trim="email"
+                      placeholder="Email"
                     >
                   </div>
                 </div>
@@ -36,15 +36,15 @@ export default {
   name: "ForgotForm",
   data() {
     return {
-      username: null
+      email: null
     };
   },
   methods: {
     ...mapActions("account", ["resetPasswordRequest"]),
     handleSubmit() {
-      const { username } = this;
-      if (username) {
-        this.resetPasswordRequest({ username });
+      const { email } = this;
+      if (email) {
+        this.resetPasswordRequest({ email });
       }
     }
   },

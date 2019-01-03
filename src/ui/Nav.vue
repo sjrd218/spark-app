@@ -57,9 +57,7 @@ export default {
     Logo
   },
   data() {
-    return {
-      username: null
-    };
+    return {};
   },
   computed: {
     ...mapGetters("account", ["getStatus", "getUser"])
