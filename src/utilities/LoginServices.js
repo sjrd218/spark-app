@@ -70,7 +70,8 @@ class SparkLoginActions {
       };
       var attributeEmail = new CognitoUserAttribute(dataEmail);
       var rundeckRoles = {
-        Name: 'rundeck_roles',
+        // Name: 'rundeck_roles',
+        Name: 'custom:rundeck_roles',
         Value: 'admin,user'
       };
       var attributeRoles = new CognitoUserAttribute(rundeckRoles);
@@ -107,7 +108,7 @@ class SparkLoginActions {
 
   // eslint-disable-next-line
   resetPasswordRequest(email) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       var userPool = new CognitoUserPool(this.poolData);
       var userData = {
         Username: email,

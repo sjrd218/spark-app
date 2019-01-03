@@ -15,9 +15,9 @@
                     <input
                       class="input is-large"
                       required
-                      type="password"
-                      v-model.trim="password"
-                      placeholder="Password"
+                      type="email"
+                      v-model.trim="email"
+                      placeholder="Email Address"
                     >
                   </div>
                 </div>
@@ -26,9 +26,9 @@
                     <input
                       class="input is-large"
                       required
-                      type="email"
-                      v-model.trim="email"
-                      placeholder="Email"
+                      type="password"
+                      v-model.trim="password"
+                      placeholder="Password"
                     >
                   </div>
                 </div>
