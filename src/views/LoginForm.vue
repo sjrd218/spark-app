@@ -16,7 +16,7 @@
                       id="un"
                       autofocus
                       required
-                      placeholder="Your Username"
+                      placeholder="Your Email Address"
                     >
                   </div>
                 </div>

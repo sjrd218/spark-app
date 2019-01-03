@@ -23,6 +23,7 @@
 <script>
 import axios from "axios";
 import config from "@/config";
+import PluginSearch from "@/components/PluginSearch";
 
 export default {
   name: "RepositoryBrowser",
