@@ -19,9 +19,9 @@
         </g>
       </g>
     </svg>
-    <span class="spark">
+    <div class="spark">
       <i class="fas fa-fire"></i>
-    </span>
+    </div>
   </span>
 </template>
 
@@ -36,8 +36,9 @@ export default {
   // fill: #fff !important;
 }
 .spark {
-  color: white;
   color: #e34f43;
+  display: inline-block;
+  position: absolute;
   i {
     font-size: 1.5em;
     padding-left: 0.25em;

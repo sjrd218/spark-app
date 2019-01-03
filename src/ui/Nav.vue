@@ -18,31 +18,44 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id class="navbar-menu">
+      <div class="navbar-menu">
         <div class="navbar-start">
           <router-link class="navbar-item" to="/">Home</router-link>
           <router-link class="navbar-item" to="/plugins">Plugins</router-link>
           <router-link class="navbar-item" to="/test">Test</router-link>
         </div>
 
-        <div class="navbar-end">
+        <div class="navbar-end" v-if="getStatus.loggedIn === true">
           <div class="navbar-item">
             <div class="buttons">
-              <span v-if="getStatus.loggedIn === true">
-                <router-link class="button is-light" to="myspark">MySpark</router-link>
-                <router-link class="button is-light" to="/profile">Profile</router-link>
-                <a @click="logout" class="button is-light">Log Out</a>
+              <router-link class="button red-button" to="myspark">Dashboard</router-link>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-arrowless">
+              <span class="red-circle">
+                <i class="fas fa-user"></i>
               </span>
-              <span v-else>
-                <router-link class="button is-primary" to="register">Sign Up</router-link>
-                <router-link class="button is-light" to="login">Log In</router-link>
-                <router-link class="button is-light" to="reset-password">Reset</router-link>
-              </span>
+            </a>
+
+            <div class="navbar-dropdown is-right">
+              <router-link class="navbar-item" to="/profile">Profile</router-link>
+              <router-link class="navbar-item" to="/profile/change-password">Change Password</router-link>
+              <hr class="navbar-divider">
+              <a @click="logout" class="navbar-item">Log Out</a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end" v-else>
+          <div class="navbar-item">
+            <div class="buttons">
+              <router-link class="button is-primary" to="register">Sign Up</router-link>
+              <router-link class="button is-light" to="login">Log In</router-link>
+              <router-link class="button is-light" to="reset-password">Reset</router-link>
             </div>
           </div>
         </div>
       </div>
-      <!-- <pre>{{getUser}}</pre> -->
     </div>
   </nav>
 </template>
@@ -69,60 +82,72 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.navbar-menu {
-  a.navbar-item,
-  .navbar-link {
-    background-color: transparent;
-    color: black;
+.navbar {
+  padding: 1.25em 0 0;
+  // background-color: #e34f43;
+  background-color: white;
+  .navbar-menu {
+    .navbar-start {
+      .navbar-item:first-of-type {
+        padding-left: 0;
+      }
+      a.navbar-item,
+      .navbar-link {
+        height: fit-content;
+        background-color: transparent;
+        color: black;
+        font-family: "Jost", sans-serif;
+        font-weight: medium;
+        font-size: 18px;
+        line-height: 30px;
+
+        display: inline-block;
+        position: relative;
+        margin-right: 1.25em;
+        -webkit-transition: 0.25s color ease-in-out;
+        -o-transition: 0.25s color ease-in-out;
+        transition: 0.25s color ease-in-out;
+
+        &:hover {
+          color: #f84944;
+        }
+        &.router-link-active {
+          border-bottom: 2px solid black;
+        }
+      }
+    }
   }
 }
 
-// a.navbar-item:hover,
-// a.navbar-item.is-active,
-// .navbar-link:hover,
-// .navbar-link.is-active {
-//   background-color: transparent;
-// }
-a.navbar-item:hover,
-a.navbar-item.is-active,
-.navbar-link:hover,
-.navbar-link.is-active {
-  background-color: transparent;
-}
-.navbar {
-  padding: 1.25em 0;
-  // background-color: #e34f43;
-  background-color: white;
-}
 .logo {
   margin-right: 2.8125em;
 }
-.navbar-start .navbar-item:first-of-type {
-  padding-left: 0;
-}
 .red-button {
   background-color: #f7403a;
-  -webkit-box-shadow: 0 0.625em 0.625em rgba(0, 0, 0, 0.08),
-    0 0.875em 1.75em rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0.625em 0.625em rgba(0, 0, 0, 0.08),
-    0 0.875em 1.75em rgba(0, 0, 0, 0.15);
+  color: #fff;
   border-radius: 0.1875em;
   padding: 0.82812em 1.375em;
   font-weight: 700;
+  -webkit-transition: 0.25s all ease-in-out;
+  -o-transition: 0.25s all ease-in-out;
+  transition: 0.25s all ease-in-out;
+  &:hover {
+    background-color: #f97975;
+    color: #fff;
+  }
 }
-.navbar-menu {
-  .navbar-item {
-    display: inline-block;
-    position: relative;
-    margin-right: 1.25em;
-    color: #000;
-    font-weight: 500;
-    padding: 0.55556em 0;
-    font-size: 1.125em;
-    font-weight: 500;
-    -webkit-transition: 0.25s color ease-in-out;
-    -o-transition: 0.25s color ease-in-out;
-    transition: 0.25s color ease-in-out;
+
+.red-circle {
+  background-color: #f7403a;
+  color: #fff;
+  border-radius: 0.1875em;
+  padding: 0.4em 1em;
+  -webkit-transition: 0.25s all ease-in-out;
+  -o-transition: 0.25s all ease-in-out;
+  transition: 0.25s all ease-in-out;
+  &:hover {
+    background-color: #f97975;
+    color: #fff;
   }
 }
 </style>

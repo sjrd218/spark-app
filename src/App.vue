@@ -26,4 +26,7 @@ export default {
 </script>
 
 <style>
+.section-block {
+  padding: 3rem 0;
+}
 </style>

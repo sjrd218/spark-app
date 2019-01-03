@@ -9,7 +9,7 @@ import {
   router
 } from '@/router'
 
-console.log('router', router)
+// Styles
 import 'buefy/dist/buefy.css'
 
 Vue.config.productionTip = false

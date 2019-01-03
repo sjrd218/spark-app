@@ -16,6 +16,8 @@ import Forgot from '@/views/Forgot'
 import ResetPassword from '@/views/ResetPassword'
 import RegistrationVerification from '@/views/RegistrationVerification'
 import Profile from '@/views/Profile'
+import ChangePassword from '@/views/ChangePassword'
+import ChangeAccountInfo from '@/views/ChangeAccountInfo'
 
 Vue.use(VueRouter)
 
@@ -65,6 +67,16 @@ export const router = new VueRouter({
       path: '/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/profile/change-password',
+      name: 'ChangePassword',
+      component: ChangePassword
+    },
+    {
+      path: '/profile/change-account-info',
+      name: 'ChangeAccountInfo',
+      component: ChangeAccountInfo
     },
     {
       path: '*',
