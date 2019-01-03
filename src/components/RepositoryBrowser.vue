@@ -27,6 +27,7 @@ import PluginSearch from "@/components/PluginSearch";
 
 export default {
   name: "RepositoryBrowser",
+  components: {},
   data() {
     return {
       entries: null,
