@@ -58,15 +58,15 @@ const actions = {
   }, {
     email
   }) {
-    commit('RESET_PASSWORD_REQUEST');
+    commit('RESET_PASSWORD_REQUEST',email);
     SparkService.resetPasswordRequest(email).then((response) => {
       commit('RESET_PASSWORD_REQUEST_SUCCESS', response)
       router.push('/reset-password');
       // }, error => {
       //   commit('RESET_PASSWORD_REQUEST_FAILURE', error);
-      //   // dispatch('alert/error', error, {
-      //   //   root: true
-      //   // });
+      //   dispatch('alert/error', error, {
+      //     root: true
+      //   });
     })
   },
   resetPassword({
@@ -77,9 +77,9 @@ const actions = {
     verificationCode
   }) {
     commit('RESET_PASSWORD');
-    SparkService.resetPassword(password, passwordConfirmed, verificationCode).then((response) => {
+    SparkService.resetPassword(state.email, password, passwordConfirmed, verificationCode).then((response) => {
       commit('RESET_PASSWORD_SUCCESS', response)
-      router.push('/profile');
+      router.push('/login');
     }, error => {
       commit('RESET_PASSWORD_FAILURE', error);
       // dispatch('alert/error', error, {
@@ -199,16 +199,17 @@ const mutations = {
   VERIFY_FAILURE(state) {
     state.status = {};
   },
-  RESET_PASSWORD_REQUEST(state) {
+  RESET_PASSWORD_REQUEST(state,email) {
     state.status = {
       resetting: true
     };
+    state.email = email
   },
   RESET_PASSWORD_REQUEST_SUCCESS(state) {
     state.status = {};
 
   },
-  RESET_PASSWORD_REQUEST_FAILTURE(state) {
+  RESET_PASSWORD_REQUEST_FAILURE(state) {
     state.status = {};
   },
   RESET_PASSWORD(state) {
@@ -220,7 +221,7 @@ const mutations = {
     state.status = {};
 
   },
-  RESET_PASSWORD_FAILTURE(state) {
+  RESET_PASSWORD_FAILURE(state) {
     state.status = {};
   }
 };

@@ -8,8 +8,8 @@ import {
 
 class SparkLoginActions {
   poolData = {
-    UserPoolId: 'us-east-1_SbetwQtB6',
-    ClientId: '7t8avvqkdo26b8h2ohp63bkpcj'
+    UserPoolId: 'us-west-2_XJOzDBdDX',
+    ClientId: '32dsgkoen5vfi8kf7u2ub2h6p6'
   };
 
   login(email, password) {
@@ -36,9 +36,6 @@ class SparkLoginActions {
         }
       });
     })
-
-
-
   }
 
   logout() {
@@ -72,8 +69,14 @@ class SparkLoginActions {
         Value: email
       };
       var attributeEmail = new CognitoUserAttribute(dataEmail);
+      var rundeckRoles = {
+        Name: 'rundeck_roles',
+        Value: 'admin,user'
+      };
+      var attributeRoles = new CognitoUserAttribute(rundeckRoles);
 
       attributeList.push(attributeEmail);
+      attributeList.push(attributeRoles);
 
       userPool.signUp(email, password, attributeList, null, function (err) {
         if (err) {
@@ -104,15 +107,41 @@ class SparkLoginActions {
 
   // eslint-disable-next-line
   resetPasswordRequest(email) {
-    return new Promise((resolve) => {
-      resolve(true)
+    return new Promise((resolve,reject) => {
+      var userPool = new CognitoUserPool(this.poolData);
+      var userData = {
+        Username: email,
+        Pool: userPool
+      };
+      var cognitoUser = new CognitoUser(userData);
+      cognitoUser.forgotPassword({
+        onSuccess: function () {
+          resolve(true)
+        },
+        onFailure: function (err) {
+          reject(err.message);
+        }
+      })
     });
   }
 
   // eslint-disable-next-line
-  resetPassword(password, passwordConfirmed, verificationCode) {
-    return new Promise((resolve) => {
-      resolve(true)
+  resetPassword(email, password, passwordConfirmed, verificationCode) {
+    return new Promise((resolve, reject) => {
+      var userPool = new CognitoUserPool(this.poolData);
+      var userData = {
+        Username: email,
+        Pool: userPool
+      };
+      var cognitoUser = new CognitoUser(userData);
+      cognitoUser.confirmPassword(verificationCode, password, {
+        onSuccess: function () {
+          resolve(true)
+        },
+        onFailure: function (err) {
+          reject(err.message);
+        }
+      });
     });
   }
 }
