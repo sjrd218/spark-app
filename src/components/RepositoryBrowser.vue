@@ -6,7 +6,10 @@
     </div>
     <div class="columns is-multiline">
       <div class="column" v-for="item in entries" :key="item.id">
-        <div class="column-title">{{item.name}}</div>
+        <div class="column-title">
+          {{item.name}}
+          <span class="tag is-pulled-right">{{item.rundeckCompatibility}}</span>
+        </div>
         <div>{{item.description}}</div>
         <div>
           <span>View Plugin Info</span>

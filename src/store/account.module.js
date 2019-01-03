@@ -26,14 +26,13 @@ const actions = {
     payload
   }) {
     return new Promise(resolve => {
-      console.log('calling set user', payload)
       commit('LOGIN_SUCCESS', payload)
       resolve() // executor
     });
 
   },
   login({
-    dispatch,
+    //dispatch,
     commit
   }, {
     username,
@@ -46,6 +45,7 @@ const actions = {
       commit('LOGIN_SUCCESS', user)
       router.push('/');
     }, error => {
+      // eslint-disable-next-line
       console.log('error!', error)
       commit('LOGIN_FAILURE', error);
       // dispatch('alert/error', error, {
@@ -53,14 +53,49 @@ const actions = {
       // });
     })
   },
+  resetPasswordRequest({
+    commit
+  }, {
+    username
+  }) {
+    commit('RESET_PASSWORD_REQUEST', {
+      username
+    });
+    SparkService.resetPasswordRequest(username).then((response) => {
+      commit('RESET_PASSWORD_REQUEST_SUCCESS', response)
+      router.push('/reset-password');
+      // }, error => {
+      //   commit('RESET_PASSWORD_REQUEST_FAILURE', error);
+      //   // dispatch('alert/error', error, {
+      //   //   root: true
+      //   // });
+    })
+  },
+  resetPassword({
+    commit
+  }, {
+    password,
+    passwordConfirmed,
+    verificationCode
+  }) {
+    commit('RESET_PASSWORD');
+    SparkService.resetPassword(password, passwordConfirmed, verificationCode).then((response) => {
+      commit('RESET_PASSWORD_SUCCESS', response)
+      router.push('/profile');
+    }, error => {
+      commit('RESET_PASSWORD_FAILURE', error);
+      // dispatch('alert/error', error, {
+      //   root: true
+      // });
+    })
+  },
+
   logout({
     commit
   }) {
     SparkService.logout().then(() => {
       commit('LOGOUT')
     })
-
-
   },
   checkUser({
     commit
@@ -68,11 +103,12 @@ const actions = {
     checkUser().then(user => {
       commit('LOGIN_SUCCESS', user)
     }, error => {
+      // eslint-disable-next-line
       console.log('error', error)
     })
   },
   register({
-    dispatch,
+    //dispatch,
     commit
   }, {
     username,
@@ -95,12 +131,13 @@ const actions = {
       // });
       // })
     }, error => {
+      // eslint-disable-next-line
       console.error('registration error', error)
       commit('REGISTER_FAILURE')
     })
   },
   verify({
-    dispatch,
+    //dispatch,
     commit
   }, {
     username,
@@ -108,7 +145,6 @@ const actions = {
   }) {
     commit('VERIFY_REQUEST');
     SparkService.verify(username, verificationCode).then(() => {
-      commit('VERIFY_SUCCESS');
       router.push('/login');
       // setTimeout(() => {
       // display success message after route change completes
@@ -116,9 +152,9 @@ const actions = {
       //   root: true
       // });
       // })
-    }, error => {
+    }, () => {
       commit('VERIFY_FAILURE');
-      console.error('VERIFY_FAILURE', error)
+      // console.error('VERIFY_FAILURE', error)
     })
   }
 };
@@ -131,7 +167,6 @@ const mutations = {
     state.user = user;
   },
   LOGIN_SUCCESS(state, user) {
-    console.log('LOGIN_SUCCESS')
     state.status = {
       loggedIn: true
     };
@@ -145,7 +180,7 @@ const mutations = {
     state.status = {};
     state.user = null;
   },
-  REGISTER_REQUEST(state, user) {
+  REGISTER_REQUEST(state) {
     state.status = {
       registering: true
     };
@@ -154,7 +189,7 @@ const mutations = {
     state.status = {};
     state.username = username
   },
-  REGISTER_FAILURE(state, error) {
+  REGISTER_FAILURE(state) {
     state.status = {};
   },
   VERIFY_REQUEST(state) {
@@ -165,7 +200,31 @@ const mutations = {
   VERIFY_SUCCESS(state) {
     state.status = {};
   },
-  VERIFY_FAILURE(state, error) {
+  VERIFY_FAILURE(state) {
+    state.status = {};
+  },
+  RESET_PASSWORD_REQUEST(state) {
+    state.status = {
+      resetting: true
+    };
+  },
+  RESET_PASSWORD_REQUEST_SUCCESS(state) {
+    state.status = {};
+
+  },
+  RESET_PASSWORD_REQUEST_FAILTURE(state) {
+    state.status = {};
+  },
+  RESET_PASSWORD(state) {
+    state.status = {
+      resetting: true
+    };
+  },
+  RESET_PASSWORD_SUCCESS(state) {
+    state.status = {};
+
+  },
+  RESET_PASSWORD_FAILTURE(state) {
     state.status = {};
   }
 };
@@ -179,12 +238,11 @@ export const account = {
 };
 
 export const checkUser = () => {
-  console.log('check user is fireing')
   return new Promise((resolve, reject) => {
     SparkService.fireSetCurrentUserEvent().then(user => {
       resolve(user)
     }, error => {
-      console.log('error', error)
+      //console.log('error', error)
       reject(error)
     })
   });

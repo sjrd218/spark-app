@@ -15,6 +15,7 @@
                       type="text"
                       id="un"
                       autofocus
+                      required
                       placeholder="Your Username"
                     >
                   </div>
@@ -27,6 +28,7 @@
                       v-model="password"
                       type="password"
                       id="pwd"
+                      required
                       placeholder="Your Password"
                     >
                   </div>
@@ -40,6 +42,9 @@
             <p v-if="!username" class="has-text-grey">Not a Spark member?
               <router-link to="register">Register</router-link>
             </p>
+            <p class="has-text-grey">
+              <router-link to="forgot">Forgot your password?</router-link>
+            </p>
           </div>
         </div>
       </div>
@@ -48,8 +53,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import router from "vue-router";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginForm",
@@ -62,9 +66,6 @@ export default {
       showingLoginForm: false,
       showingLogoutForm: false
     };
-  },
-  computed: {
-    ...mapState("account", ["status"])
   },
   methods: {
     ...mapActions("account", ["login"]),

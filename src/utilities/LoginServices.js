@@ -4,11 +4,7 @@ import {
   CognitoUser,
   AuthenticationDetails
 } from 'amazon-cognito-identity-js';
-import Config from '@/config'
-import {
-  EventBus,
-  Events
-} from './vueEventBus';
+// import Config from '@/config'
 
 class SparkLoginActions {
   poolData = {
@@ -32,7 +28,7 @@ class SparkLoginActions {
       };
       var cognitoUser = new CognitoUser(userData);
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
+        onSuccess: function () {
           resolve(userPool.getCurrentUser())
         },
         onFailure: function (err) {
@@ -54,7 +50,7 @@ class SparkLoginActions {
   }
 
   fireSetCurrentUserEvent() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       var userPool = new CognitoUserPool(this.poolData);
       if (userPool.getCurrentUser()) {
         resolve(userPool.getCurrentUser())
@@ -79,7 +75,7 @@ class SparkLoginActions {
 
       attributeList.push(attributeEmail);
 
-      userPool.signUp(username, password, attributeList, null, function (err, result) {
+      userPool.signUp(username, password, attributeList, null, function (err) {
         if (err) {
           reject(err.message)
         }
@@ -97,12 +93,26 @@ class SparkLoginActions {
       };
 
       var cognitoUser = new CognitoUser(userData);
-      cognitoUser.confirmRegistration(verificationCode, true, function (err, result) {
+      cognitoUser.confirmRegistration(verificationCode, true, function (err) {
         if (err) {
           reject(err.message)
         }
         resolve(true)
       });
+    });
+  }
+
+  // eslint-disable-next-line
+  resetPasswordRequest(username) {
+    return new Promise((resolve) => {
+      resolve(true)
+    });
+  }
+
+  // eslint-disable-next-line
+  resetPassword(password, passwordConfirmed, verificationCode) {
+    return new Promise((resolve) => {
+      resolve(true)
     });
   }
 }

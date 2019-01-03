@@ -1,20 +1,12 @@
 <template>
   <div>
-    <nav-bar/>
-    <div>
-      <h1>HELLO WORLD</h1>
-    </div>
+    <h1>HELLO WORLD</h1>
   </div>
 </template>
 
 <script>
-import NavBar from "@/ui/Nav";
-
 export default {
-  name: "TestPage",
-  components: {
-    NavBar
-  }
+  name: "TestPage"
 };
 </script>
 
