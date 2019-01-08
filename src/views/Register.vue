@@ -3,7 +3,7 @@
     <section>
       <div class="failure" v-if="failureMessage">{{failureMessage}}</div>
     </section>
-    <section class="hero is-fullheight" v-if="!registrationSuccess">
+    <section class="hero" v-if="!registrationSuccess">
       <div class="hero-body">
         <div class="container has-text-centered">
           <div class="column is-4 is-offset-4">

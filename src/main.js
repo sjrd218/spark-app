@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Buefy from 'buefy'
+import vSelect from 'vue-select'
 
 import App from './App.vue'
 import {
@@ -15,6 +16,8 @@ import 'buefy/dist/buefy.css'
 Vue.config.productionTip = false
 
 Vue.use(Buefy)
+// register globally
+Vue.component('v-select', vSelect)
 
 // // Ensure we checked auth before each page load.
 // router.beforeEach((to, from, next) =>

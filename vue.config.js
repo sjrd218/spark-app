@@ -4,7 +4,6 @@ module.exports = {
     loaderOptions: {
       sass: {
         data: `
-          @import "@/scss/_typography.scss";
           @import "@/scss/_app.scss";
         `
       }

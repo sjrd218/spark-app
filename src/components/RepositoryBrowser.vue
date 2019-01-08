@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div style="margin: 1em 0;">
+      <repository-search :tags="tags"/>
+    </div>
     <div>{{repoName}} plugins</div>
     <div v-if="!loaded" class="loader">
       <img src="../assets/spinner-gray.gif" width="32" height="32">
@@ -15,6 +18,11 @@
           <span>View Plugin Info</span>
         </div>
         <div>{{item.support}}</div>
+        <div>Tags:
+          <ul class="tags">
+            <li v-for="(tag, index) in item.tags" :key="index" class="tag is-info">{{tag}}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -22,18 +30,23 @@
 
 <script>
 import axios from "axios";
+import _ from "lodash";
 import config from "@/config";
-import PluginSearch from "@/components/PluginSearch";
+// import PluginSearch from "@/components/PluginSearch";
+import RepositorySearch from "@/components/RepositorySearch";
 
 export default {
   name: "RepositoryBrowser",
-  components: {},
+  components: {
+    RepositorySearch
+  },
   data() {
     return {
       entries: null,
       loaded: false,
       repoName: config.repoName,
-      repoSrc: config.ossRepoSource
+      repoSrc: config.ossRepoSource,
+      tags: []
     };
   },
   mounted() {
@@ -47,10 +60,24 @@ export default {
       }).then(response => {
         if (response.data) {
           this.entries = response.data;
+          this.collectTags(this.entries);
         }
         this.loaded = true;
       });
+    },
+    collectTags(entries) {
+      let tagBucket = [];
+      _.each(entries, entry => {
+        tagBucket.push(entry.tags);
+      });
+      this.tags = _.chain(tagBucket)
+        .flatten()
+        .uniq()
+        .value();
     }
+  },
+  computed() {
+    return {};
   }
 };
 </script>

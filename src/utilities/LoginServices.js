@@ -69,15 +69,14 @@ class SparkLoginActions {
         Value: email
       };
       var attributeEmail = new CognitoUserAttribute(dataEmail);
-      var rundeckRoles = {
-        // Name: 'rundeck_roles',
-        Name: 'custom:rundeck_roles',
-        Value: 'admin,user'
-      };
-      var attributeRoles = new CognitoUserAttribute(rundeckRoles);
+      // var rundeckRoles = {
+      //   Name: 'rundeck_roles',
+      //   Value: 'admin,user'
+      // };
+      // var attributeRoles = new CognitoUserAttribute(rundeckRoles);
 
       attributeList.push(attributeEmail);
-      attributeList.push(attributeRoles);
+      // attributeList.push(attributeRoles);
 
       userPool.signUp(email, password, attributeList, null, function (err) {
         if (err) {
@@ -145,6 +144,17 @@ class SparkLoginActions {
       });
     });
   }
+
+  // eslint-disable-next-line
+  updateUser(nameFirst, nameLast, company) {
+    return new Promise((resolve) => {
+      // TODO
+      // Do something here to update the user
+      resolve()
+    })
+  }
 }
+
+
 
 export const SparkService = new SparkLoginActions()

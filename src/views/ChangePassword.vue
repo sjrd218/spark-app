@@ -120,6 +120,9 @@ export default {
 </script>
 
 <style>
+.Password {
+  max-width: none !important;
+}
 .Password__badge {
   height: 20px !important;
   text-align: center;

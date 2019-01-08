@@ -29,7 +29,28 @@ const actions = {
       commit('LOGIN_SUCCESS', payload)
       resolve() // executor
     });
-
+  },
+  changeAccountInfo({
+    nameFirst,
+    nameLast,
+    company
+  }) {
+    return new Promise(resolve => {
+      // eslint-disable-next-line
+      SparkService.updateUser(nameFirst, nameLast, company).then(user => {
+        alert(`TODO - This didn't actually save, but you get the idea. See this code for more details.`)
+        // TODO
+        // on success response, dispatch alerts.
+        // dispatch('alert/success', data, {
+        //   root: true
+        // });
+        // router.push('/');
+        resolve()
+      }, error => {
+        // eslint-disable-next-line
+        console.log('error!', error)
+      })
+    });
   },
   login({
     //dispatch,
@@ -58,7 +79,7 @@ const actions = {
   }, {
     email
   }) {
-    commit('RESET_PASSWORD_REQUEST',email);
+    commit('RESET_PASSWORD_REQUEST', email);
     SparkService.resetPasswordRequest(email).then((response) => {
       commit('RESET_PASSWORD_REQUEST_SUCCESS', response)
       router.push('/reset-password');
@@ -199,7 +220,7 @@ const mutations = {
   VERIFY_FAILURE(state) {
     state.status = {};
   },
-  RESET_PASSWORD_REQUEST(state,email) {
+  RESET_PASSWORD_REQUEST(state, email) {
     state.status = {
       resetting: true
     };
