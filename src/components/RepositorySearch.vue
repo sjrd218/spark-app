@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="control has-icons-right">
+    <div class="control has-icons-right styled-inputs">
       <input class="input is-large" type="search" placeholder="Search by Plugin Name">
       <!-- <span class="icon is-medium is-left">
             <i class="fa fa-search"></i>

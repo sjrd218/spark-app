@@ -2,17 +2,20 @@
   <div id="app">
     <nav-bar/>
     <router-view></router-view>
+    <footer-bar/>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
 import NavBar from "@/ui/Nav";
+import FooterBar from "@/ui/FooterBar";
 
 export default {
   name: "app",
   components: {
-    NavBar
+    NavBar,
+    FooterBar
   },
   methods: {
     ...mapActions("account", ["checkUser"])

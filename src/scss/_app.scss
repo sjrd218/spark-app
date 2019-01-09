@@ -9,7 +9,9 @@ body {
 @media (min-width: 992px) {}
 
 .styled-inputs {
-  input.input {
+
+  input.input,
+  .select-wrapper select {
     background-color: #f1f1f1 !important;
     border: 1px solid #f1f1f1;
     border-radius: 2px;
@@ -20,6 +22,13 @@ body {
     width: 100%;
     box-shadow: none;
     height: auto;
+  }
+
+  .select-wrapper {
+    background-color: #f1f1f1 !important;
+    padding: 12px 5px 13px;
+    display: inline-block;
+    margin-left: 1em;
   }
 }
 
