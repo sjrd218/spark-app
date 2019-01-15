@@ -36,82 +36,169 @@
           </div>
           <div class="columns">
             <div class="column">
+              <section class="collapse-section">
+                <b-collapse :open="false" animation="slide">
+                  <button
+                    class="button is-dark is-medium is-rounded is-padded collapse-trigger"
+                    slot="trigger"
+                    slot-scope="{open}"
+                  >
+                    <span v-show="open">Close</span>
+                    <span v-show="!open">Filter Results</span>
+                  </button>
+                  <div>
+                    <div class="support-tab-row">
+                      <ais-refinement-list
+                        attribute-name="support"
+                        :sort-by="['name:asc']"
+                        :classNames="{
+                          'ais-refinement-list': 'support-refinement-tabs-wrapper',
+                          'ais-refinement-list__count': 'is-hidden',
+                          'ais-refinement-list__item': 'support-refinement-tab-item'
+                        }"
+                      ></ais-refinement-list>
+                    </div>
+
+                    <div class="tag-cloud">
+                      <span class="side-title is-size-6">Tags</span>
+                      <ais-refinement-list
+                        attribute-name="tags"
+                        :sort-by="['count:desc', 'name:asc']"
+                        :classNames="{
+                            'ais-refinement-list': 'field is-grouped is-grouped-multiline',
+                            'ais-refinement-list__count': '',
+                            'ais-refinement-list__item': 'control'
+                          }"
+                      >
+                        <template slot-scope="{ value, active, count }">
+                          <div class="tags has-addons">
+                            <a
+                              class="tag"
+                              v-bind:class="{'is-red':active, 'is-dark': !active}"
+                            >{{value | capitalSplit}}</a>
+                            <a class="tag">{{count}}</a>
+                          </div>
+                        </template>
+                      </ais-refinement-list>
+                    </div>
+                    <div
+                      class="type-cloud"
+                      style="margin-top:2em;border-top: 1px solid #dbd;padding-top:1em;"
+                    >
+                      <span class="side-title is-size-6">Types</span>
+
+                      <ais-refinement-list
+                        attribute-name="providesServices"
+                        :sort-by="['count:desc', 'name:asc']"
+                        :classNames="{
+                            'ais-refinement-list': 'field is-grouped is-grouped-multiline',
+                            'ais-refinement-list__count': '',
+                            'ais-refinement-list__item': 'control'
+                          }"
+                      >
+                        <template slot-scope="{ value, active, count }">
+                          <div class="tags has-addons">
+                            <a
+                              class="tag"
+                              v-bind:class="{'is-red':active, 'is-dark': !active}"
+                            >{{value | capitalSplit}}</a>
+                            <a class="tag">{{count}}</a>
+                          </div>
+                        </template>
+                      </ais-refinement-list>
+                    </div>
+                  </div>
+                </b-collapse>
+              </section>
+            </div>
+          </div>
+          <!--<div class="columns">
+            <div class="column">
+              <ais-refinement-list
+                attribute-name="support"
+                :sort-by="['name:asc']"
+                :classNames="{
+                  'ais-refinement-list': 'support-refinement-wrapper',
+                  'ais-refinement-list__count': 'is-invisible',
+                  'ais-refinement-list__item': 'support-refinement-list-item'
+                }"
+              >
+              </ais-refinement-list>
+            </div>
+          </div>-->
+          <div class="columns">
+            <div class="column">
               <ais-stats></ais-stats>
             </div>
           </div>
           <div class="columns">
-            <div class="column is-one-fifth">
-              <ais-refinement-list
-                attribute-name="support"
-                :classNames="{
-              'ais-refinement-list__count': 'tag',
-              'ais-refinement-list__item': 'refinement-list-item'
-            }"
-              >
-                <h3 slot="header">Support</h3>
-              </ais-refinement-list>
-              <ais-refinement-list
-                attribute-name="providesServices"
-                :classNames="{
-              'ais-refinement-list__count': 'tag',
-              'ais-refinement-list__item': 'refinement-list-item'
-            }"
-              >
-                <h3 slot="header">Provides</h3>
-              </ais-refinement-list>
-              <ais-refinement-list
-                attribute-name="tags"
-                :classNames="{
-              'ais-refinement-list__count': 'tag',
-              'ais-refinement-list__item': 'refinement-list-item'
-            }"
-              >
-                <template>
-                  <span slot="default">HELLO</span>
-                </template>
-
-                <h3 slot="header">Tags</h3>
-              </ais-refinement-list>
-            </div>
-            <div class="column is-four-fifths" style="margin-left:3.4em;">
+            <div class="column">
               <!-- SEARCH RESULTS -->
               <ais-results class="search-results columns is-multiline">
                 <template slot-scope="{ result }">
                   <div class="column is-one-third">
-                    <div class="column-title">
-                      {{result.name}} {{'marple' | capitalize}}
-                      <span
-                        class="tag is-pulled-right"
-                      >{{result.rundeckCompatibility}}</span>
-                    </div>
-                    <div>{{result.description}}</div>
-                    <div>
-                      <span>View Plugin Info</span>
-                    </div>
-                    <div>{{result.support}}</div>
-                    <div>Tags:
-                      <ul class="tags">
-                        <li
-                          v-for="(tag, index) in result.tags"
-                          :key="index"
-                          class="tag is-info"
-                        >{{tag | capitalSplit}}</li>
-                      </ul>
+                    <div class="card">
+                      <header class="card-header">
+                        <p class="card-header-title">{{result.name}}</p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                          <span class="tag">{{result.rundeckCompatibility}}</span>
+                        </a>
+                      </header>
+                      <div class="card-content">
+                        <div style="margin-bottom:.7em;">{{result.description}}</div>
+                        <div style="margin-bottom: .7em;">
+                          <a href="https://picsum.photos/800/800/?random">
+                            <i class="fas fa-external-link-alt"></i>View Plugin Info
+                          </a>
+                        </div>
+                        <!-- <div>{{result.support}}</div> -->
+                        <div>
+                          <ul class="tags">
+                            <li
+                              v-for="(tag, index) in result.tags"
+                              :key="index"
+                              class="tag is-red"
+                            >{{tag | capitalSplit}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <footer class="card-footer">
+                        <span class="card-footer-item">{{result.support}}</span>
+                      </footer>
                     </div>
                   </div>
                 </template>
               </ais-results>
               <ais-no-results/>
+              <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <ais-pagination
+                  :classNames="{
+                  'ais-pagination': 'pagination-list',
+                  'ais-pagination__item': '',
+                  'ais-pagination__item--first': 'is-dark',
+                  'ais-pagination__item--previous': '',
+                  'ais-pagination__item--next': '',
+                  'ais-pagination__item--last': '',
+                  'ais-pagination__link': 'pagination-link',
+                  'ais-pagination__item--active': 'is-current',
+                  'ais-pagination__item--disabled': 'is-disabled',
+                }"
+                >
+                  <span slot="first">
+                    <i class="fas fa-step-backward"></i>
+                  </span>
+                  <span slot="previous">
+                    <i class="fas fa-chevron-left"></i>
+                  </span>
+                  <span slot="next">
+                    <i class="fas fa-chevron-right"></i>
+                  </span>
+                  <span slot="last">
+                    <i class="fas fa-step-forward"></i>
+                  </span>
+                </ais-pagination>
+              </nav>
 
-              <ais-pagination
-                class="pagination"
-                :classNames="{
-              'ais-pagination': 'pagination',
-              'ais-pagination__item--active': 'active',
-              'ais-pagination__item--disabled': 'disabled'
-            }"
-                v-on:page-change="onPageChange"
-              />
               <!-- // SEARCH RESULTS -->
             </div>
           </div>
@@ -134,15 +221,13 @@ export default {
   },
   data() {
     return {
+      open: false,
       repoName: config.repoName,
-      repoSrc: config.ossRepoSource
+      repoSrc: config.ossRepoSource,
+      searchStore: null
     };
   },
-  methods: {
-    onPageChange() {
-      window.scrollTo(0, 0);
-    }
-  },
+  methods: {},
   filters: {
     capitalize: function(value) {
       if (!value) return "";
@@ -151,31 +236,226 @@ export default {
     },
     capitalSplit: function(value) {
       if (!value) return "";
+      if (value.length <= 2) return value.toString().toUpperCase();
       return value.split(/(?=[A-Z])/).join(" ");
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.tag-cloud,
+.type-cloud {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  .side-title {
+    display: inline-block;
+    color: #f7403a;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-transform: scaleX(-1) scaleY(-1);
+    -ms-transform: scaleX(-1) scaleY(-1);
+    transform: scaleX(-1) scaleY(-1);
+    -webkit-writing-mode: tb-rl;
+    -ms-writing-mode: tb-rl;
+    writing-mode: tb-rl;
+    // &:after {
+    //   z-index: 1;
+    //   background-color: #ddd;
+    //   height: 100%;
+    //   content: "";
+    //   display: inline-block;
+    //   position: relative;
+    //   top: 0;
+    //   left: 0;
+    //   width: 0.1875em;
+    // }
+  }
+  .refinement-tag-item {
+  }
+  &.ais-refinement-list__item--active {
+  }
+  .ais-refinement-list__checkbox {
+    display: none;
+  }
+  .field.is-grouped-multiline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    border-left: 3px solid #ddd;
+    padding-left: 1em;
+    margin-left: 0.6em;
+  }
+  a.tag {
+    padding-top: 2px;
+    -webkit-transition: 0.25s all ease-in-out;
+    -o-transition: 0.25s all ease-in-out;
+    transition: 0.25s all ease-in-out;
+    &:hover {
+      text-decoration: none !important;
+    }
+
+    cursor: pointer;
+    &.is-red {
+      background-color: #f7403a;
+
+      color: #fff;
+    }
+  }
+}
+.collapse-section {
+  .collapse-trigger {
+    display: block !important;
+    margin: 0 auto;
+    text-align: center;
+    // color: blue;
+  }
+  .collapse-content {
+    margin: 2em 0;
+  }
+}
+.support-tab-row {
+  border-bottom: 1px solid #dbdbdb;
+  border-top: 1px solid #dbdbdb;
+  margin-bottom: 2em;
+  text-align: center;
+}
+.support-refinement-tabs-wrapper {
+  .support-refinement-tab-item {
+    display: inline-block;
+    border-bottom: 1px solid #dbdbdb;
+    margin-bottom: -1px;
+    padding: 0.5em;
+    font-weight: bold;
+    &.ais-refinement-list__item--active {
+      border-bottom-color: #4a4a4a;
+      color: #363636;
+    }
+    .ais-refinement-list__checkbox {
+      display: none;
+    }
+  }
+}
+
+.support-refinement-wrapper {
+  width: 60%;
+  margin: 0 auto 0.9375em;
+  // -ms-flex-wrap: wrap;
+  // flex-wrap: wrap;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.support-refinement-list-item {
+  // display: inline;
+  flex: none;
+  padding: 0;
+  margin: 0 1.5625em 0 0;
+  font-weight: bold;
+  &.ais-refinement-list__item--active {
+    .ais-refinement-list__label {
+      .ais-refinement-list__value {
+        color: #333;
+        border-bottom: 3px solid #333;
+      }
+    }
+    // .plugins__topics-btn--active:after {
+    //     opacity: 1;
+    // }
+    // .plugins__topics-btn:after {
+    //     content: '';
+    //     display: block;
+    //     position: absolute;
+    //     width: 100%;
+    //     bottom: 0;
+    //     left: 0;
+    //     right: 0;
+    //     height: .22222em;
+    //     background-color: #333;
+    //     opacity: 0;
+    //     -webkit-transition: .25s opacity ease-in-out;
+    //     -o-transition: .25s opacity ease-in-out;
+    //     transition: .25s opacity ease-in-out;
+    // }
+  }
+  .ais-refinement-list__checkbox {
+    display: none;
+  }
+  .ais-refinement-list__label {
+    position: relative;
+    display: inline-block;
+    padding: 0.44444em 0 0;
+    border: 0;
+    background: 0;
+    .ais-refinement-list__value {
+      color: #6f9ad3;
+      font-size: 1.125em;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      padding-bottom: 0.44444em;
+      -webkit-transition: 0.25s all ease-in-out;
+      -o-transition: 0.25s all ease-in-out;
+      transition: 0.25s all ease-in-out;
+    }
+  }
+}
+//
+// Results
+//
 .search-results {
-  .column {
-    margin: 10px;
-    padding: 18px;
+  .card {
+    // margin: 0 10px 10px 0;
+    padding: 10px 15px 3px;
     background-color: #fff;
     border: 3px solid #ddd;
-    flex: 0 0 275px;
-    min-height: 100px;
+    // flex: 0 0 275px;
+    // min-height: 100px;
+    // max-width: calc(33% - 10px);
     font-size: 1.125em;
   }
-  .column-title {
-    font-weight: bold;
-    color: #333;
-    padding: 0 0 5px 0;
+  .column-card {
+    position: relative;
+    height: 100%;
+  }
+  .card-header {
+    box-shadow: none;
     border-bottom: 3px;
     border-bottom-color: black;
     border-bottom-style: solid;
-    margin-bottom: 5px;
+  }
+  .card-header-title {
+    font-weight: bold;
+    color: #333;
+    padding-left: 0;
+  }
+  .card-header-icon {
+    padding-right: 0;
+  }
+  .card-content {
+    padding: 0.5em 0;
+    .plugin-link {
+    }
+  }
+  .card-footer {
+    border-top: 3px solid #000;
   }
   .item-hdr {
     font-weight: bold;
@@ -194,11 +474,57 @@ export default {
     text-decoration: underline;
   }
   .footer {
-    margin-top: 5px;
-    padding: 5px 0 0 0;
+    // position: absolute;
+    // bottom: 0;
+    padding: 0;
     border-top: 3px;
     border-top-color: black;
     border-top-style: solid;
   }
+  .tag {
+    cursor: pointer;
+    &.is-red {
+      background-color: #f7403a;
+      color: #fff;
+    }
+  }
+}
+.pagination {
+  .ais-pagination__item.is-current > a.pagination-link {
+    background-color: #f7403a;
+    border-color: #f7403a;
+    color: white;
+  }
+  .pagination-link {
+    padding-bottom: calc(0.375em - 3px);
+    border-color: #dddddd;
+    border-width: 3px;
+    font-weight: bold;
+    border-radius: 0;
+    margin-left: 0.6em;
+    margin-right: 0.6em;
+  }
+  // .ais-pagination__item {
+  //   &.active {
+  //   }
+  //   .ais-pagination__link {
+  //   }
+  //   .disabled {
+  //   }
+  //   .ais-pagination__item--first {
+  //   }
+  .ais-pagination__item--previous {
+    .pagination-link {
+      padding-left: 0.4em;
+    }
+  }
+  .ais-pagination__item--next {
+    .pagination-link {
+      padding-left: 0.6em;
+    }
+  }
+  //   .ais-pagination__item--last {
+  //   }
+  // }
 }
 </style>

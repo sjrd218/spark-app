@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <nav-bar/>
-    <router-view></router-view>
+    <div id="app-content">
+      <router-view></router-view>
+    </div>
     <footer-bar/>
   </div>
 </template>
@@ -28,10 +30,16 @@ export default {
 
 <style>
 #app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   font-size: 16px;
   font-family: "Jost", sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
+}
+#app-content {
+  flex: 1;
 }
 h1,
 h2,
